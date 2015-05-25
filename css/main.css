@@ -1,0 +1,11 @@
+/*.btn-primary {
+  color: #fff;
+  background-color: #f37ab7;
+  border-color: #fe6da4;
+}
+
+.btn-primary.active, .btn-primary.focus, .btn-primary:active, .btn-primary:focus, .btn-primary:hover, .open>.dropdown-toggle.btn-primary {
+  color: #fff;
+  background-color: #F86090;
+  border-color: #F04d74;
+}*/
