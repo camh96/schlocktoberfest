@@ -29,9 +29,24 @@
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
               <li <?php if ($page === "index"): ?> class="active" <?php endif; ?> ><a href="./">Home</a></li>
-              <li <?php if ($page === "about"): ?> class="active" <?php endif; ?> ><a href="about.php">About</a></li>
+              <li <?php if ($page === "about"): ?> class="active" <?php endif; ?> ><a href="./?page=about">About</a></li>
               <li <?php if ($page === "contact"): ?> class="active" <?php endif; ?> ><a href="#">Contact</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
       </nav>
+      
+      <?php content(); ?>
+
+      <footer>
+        <p>© <?php echo date("Y") ?> Schlocktober Film Festival NZ</p>
+      </footer>
+    </div><!-- /.container -->
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+  </body>
+</html>

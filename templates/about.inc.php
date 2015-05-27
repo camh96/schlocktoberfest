@@ -1,8 +1,10 @@
 <?php 
 $title = "About The Fest";
 $page = "about"; 
-include "header.inc.php"; 
-?>
+include "master.inc.php"; 
+
+function content() {
+  ?>
       <div class="row">
         <div class="col-xs-12">
           <h1>Schlocktoberfest <small>The best worst movie film festival</small></h1>
@@ -20,5 +22,5 @@ include "header.inc.php";
           <button class="btn btn-success btn-lg"><span class="glyphicon glyphicon-sunglasses" aria-hidden="true"></span> Book Tickets Now (coming soon!)</button>
         </div>
       </div>
-
-<?php include "footer.inc.php"; ?>
+  <?php
+}
