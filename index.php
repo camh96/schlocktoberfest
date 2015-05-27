@@ -1,20 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Schlocktoberfest</title>
-
-    <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <!-- <link href="css/bootstrap-theme.min.css" rel="stylesheet">     -->
-    <link rel="stylesheet" href="css/main.css">
-  </head>
-  <body>
-
-    <div class="container">
+<?php 
+$title = "";
+$page = "index"; 
+include "header.inc.php"; 
+?>
 
       <div class="row">
         <div class="col-xs-12">
@@ -25,6 +13,7 @@
       <div class="row">
         <div class="col-sm-6">
           <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
+          <p><?php echo date("c"); ?></p>
           <button class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-film" aria-hidden="true"></span> Film Programme</button>
           <button class="btn btn-success btn-lg"><span class="glyphicon glyphicon-sunglasses" aria-hidden="true"></span> Book Tickets Now (coming soon!)</button>
         </div>
@@ -79,12 +68,5 @@
           quis nostrud exercitation ullamco laboris nisi ut aliquip.</p>
         </div>
       </div>
-    </div>
 
-
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.min.js"></script>
-  </body>
-</html>
+<?php include "footer.inc.php"; ?>
