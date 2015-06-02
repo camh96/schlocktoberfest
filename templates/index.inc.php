@@ -4,6 +4,7 @@ $page = "index";
 include "master.inc.php"; 
 
 function content () {
+  global $moviesuggest;
   ?>
 
       <div class="row">
@@ -48,23 +49,38 @@ function content () {
 
           <h3 class="text-center">Suggest a Movie</h3>
           <form action="./?page=moviesuggest" method="POST" class="form-horizontal">
+            
+            <?php if (isset($_SESSION['suggestmovieerror']) && $_SESSION['suggestmovieerror'] === true) : ?>
+
+              <div class="bg-danger">There were errors.</div>
+
+              <?php $_SESSION['suggestmovieerror'] = null; ?>
+
+            <?php endif; ?>
+            
             <div class="form-group input-lg">
               <label for="movietitle" class="col-sm-4 control-label">Movie Title</label>
               <div class="col-sm-8">
-                <input id="movietitle" class="form-control input-lg" name="title" placeholder="Troll 2 (1990)">
+                <input id="movietitle" class="form-control input-lg" name="title" 
+                  placeholder="Troll 2 (1990)"
+                  value="<?php echo $moviesuggest['title']; ?>">
               </div>
             </div>
             <div class="form-group input-sm">
               <label for="email" class="col-sm-4 control-label">Email Address</label>
               <div class="col-sm-8">
-                <input id="email" class="form-control input-sm" name="email" type="email" placeholder="joshua@nilbog.org">
+                <input id="email" class="form-control input-sm" name="email" type="email"
+                  placeholder="joshua@nilbog.org"
+                  value="<?php echo $moviesuggest['email']; ?>">
               </div>
             </div>
             <div class="form-group">
                <div class="col-sm-offset-4 col-sm-8">
                 <div class="checkbox">
                   <label>
-                    <input id="newsletter" name="newsletter" type="checkbox" value="yes">
+                    <input id="newsletter" name="newsletter" type="checkbox" 
+                      <?php if ($moviesuggest['newsletter']): ?> checked <?php endif; ?>
+                      value="yes">
                     Sign up for Schlocktoberfest Newsletter
                     <small>once a month, promise</small>
                   </label>
