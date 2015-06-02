@@ -8,12 +8,15 @@ if (! stristr($_SERVER['HTTP_HOST'], ".yoobee.net.nz") ) {
 	// local developer environment
     ini_set('display_errors', true);
     ini_set("log_errors", 1);
-    ini_set("error_log", getcwd()."/php-error.log");
+    ini_set("error_log", getcwd() . "/php-error.log");
 } else {
 	// production environment
     ini_set('display_errors', true);
     ini_set("log_errors", 1);
-    ini_set("error_log", getcwd()."/php-error.log");
+    ini_set("error_log", getcwd() . "/php-error.log");
 }
+
+session_start();
+session_regenerate_id(true);
 
 require "routes.php";
