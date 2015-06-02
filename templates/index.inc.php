@@ -15,7 +15,22 @@ function content () {
       <div class="row">
         <div class="col-sm-6">
           <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-          <p><?php echo date("c"); ?></p>
+          
+          <p><?php 
+
+            $launch = new DateTime("2015-10-31T19:30:00+12:00");
+            $now = new DateTime();
+
+            echo $launch->format("g:ia M jS Y");
+            echo " - "; 
+
+            $interval = $now->diff($launch);
+
+            echo $interval->format('%m months, %d days, %h hours, %i minutes, %s seconds');
+
+            // 7:30pm Oct 31st 2015
+
+          ?></p>
           <button class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-film" aria-hidden="true"></span> Film Programme</button>
           <button class="btn btn-success btn-lg"><span class="glyphicon glyphicon-sunglasses" aria-hidden="true"></span> Book Tickets Now (coming soon!)</button>
         </div>
@@ -32,7 +47,7 @@ function content () {
         <div class="col-sm-4">
 
           <h3 class="text-center">Suggest a Movie</h3>
-          <form action="#" method="POST" class="form-horizontal">
+          <form action="./?page=moviesuggest" method="POST" class="form-horizontal">
             <div class="form-group input-lg">
               <label for="movietitle" class="col-sm-4 control-label">Movie Title</label>
               <div class="col-sm-8">
