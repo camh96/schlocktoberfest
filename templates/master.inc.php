@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Schlocktoberfest <?php if ($title) { echo "-"; } ?> <?= $title ?></title>
+    <title>Schlocktoberfest <?php if ($page_title) { echo "-"; } ?> <?= $page_title ?></title>
 
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -36,7 +36,7 @@
         </div><!--/.container-fluid -->
       </nav>
       
-      <?php content(); ?>
+      <?php $this->content(); ?>
 
       <footer>
         <p>© <?php echo date("Y") ?> Schlocktober Film Festival NZ</p>

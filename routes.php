@@ -3,64 +3,86 @@
 $page = isset($_GET['page']) ? $_GET['page'] : 'home';
 
 switch ($page) {
-    case "home":
-        if (isset($_SESSION['moviesuggest'])) {
-            $moviesuggest = $_SESSION['moviesuggest'];
-        } else {
-            $moviesuggest = [
-                'title' => "",
-                'email' => "",
-                'newsletter' => ""
-            ];
-        }
+	case "home":
+		if (isset($_SESSION['moviesuggest'])) {
+			$moviesuggest = $_SESSION['moviesuggest'];
+		} else {
+			$moviesuggest = [
+				'title' => "",
+				'email' => "",
+				'newsletter' => "",
+				'errors' => [
+					'title' => "",
+					'email' => "",
+					'newsletter' => ""
+				]
+			];
+		}
+		
+		require "classes/HomeView.php";
 
-        include "templates/index.inc.php";
-        break;
+		$view = new HomeView($moviesuggest);
+		$view->render();
+		
+		break;
 
-    case "about":
-        include 'templates/about.inc.php';
-        break;
+	case "about":
 
-    case "moviesuggest":
+		require "classes/AboutView.php";
+		
+		$view = new AboutView();
+		$view->render();
 
-        $_SESSION['moviesuggest'] = null;
+		break;
 
-        $moviesuggest = [];
+	case "moviesuggest":
 
-        // capture suggestion data
+		$_SESSION['moviesuggest'] = null;
 
-        $expectedVariables = ['title', 'email', 'newsletter'];
+		$moviesuggest = [
+			'errors' => []
+		];
 
-        foreach ($expectedVariables as $variable) {
-            if (isset($_POST[$variable])) {
-                $moviesuggest[$variable] = $_POST[$variable];
-            } else {
-                $moviesuggest[$variable] = "";
-            }
-        }
+		// capture suggestion data
 
-        // validate suggestion data
+		$expectedVariables = ['title', 'email', 'newsletter'];
 
-        $error = false;
+		foreach ($expectedVariables as $variable) {
+			
+			// assume no errors
+			$moviesuggest['errors'][$variable] = "";
 
-        if (strlen($moviesuggest['title']) == 0) {
-            $error = true;
-        }
-        if (! filter_var($moviesuggest['email'], FILTER_VALIDATE_EMAIL)) {
-            $error = true;
-        }
+			if (isset($_POST[$variable])) {
+				$moviesuggest[$variable] = $_POST[$variable];
+			} else {
+				$moviesuggest[$variable] = "";
+			}
+		}
 
-        if ($error === true) {
-            $_SESSION['suggestmovieerror'] = true;
-            $_SESSION['moviesuggest'] = $moviesuggest;
-            header("Location: ./");
-            exit();
-        }
+		// validate suggestion data
 
-        echo "Success! Your suggestion is valid!";
+		$error = false;
 
-        break;
+		if (strlen($moviesuggest['title']) == 0) {
+			$moviesuggest['errors']['title'] = "A movie title is required.";
+			$error = true;
+		}
+		if (! filter_var($moviesuggest['email'], FILTER_VALIDATE_EMAIL)) {
+			$moviesuggest['errors']['email'] = "A valid email address required.";
+			$error = true;
+		}
 
-    default:
-        echo "404";
+		if ($error === true) {
+			$_SESSION['suggestmovieerror'] = true;
+			$_SESSION['moviesuggest'] = $moviesuggest;
+			header("Location: ./#moviesuggest");
+			exit();	
+		}
+
+		echo "Success! Your suggestion is valid!";
+
+		break;
+
+	default: 
+		echo "404";
 }
