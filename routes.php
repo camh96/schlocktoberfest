@@ -1,5 +1,7 @@
 <?php
 
+use Mailgun\Mailgun;
+
 $page = isset($_GET['page']) ? $_GET['page'] : 'home';
 
 switch ($page) {
@@ -34,6 +36,15 @@ switch ($page) {
 		$view->render();
 
 		break;
+
+	case "moviesuggestsuccess":
+
+	require "classes/SuccessSuggest.php";
+	
+	$view = new SuccessSuggestView();
+	$view->render();
+
+	break;
 
 	case "moviesuggest":
 
@@ -79,7 +90,25 @@ switch ($page) {
 			exit();	
 		}
 
-		echo "Success! Your suggestion is valid!";
+
+		   // form is valid
+
+        // redirect user to success page
+        // header("Location: ./?page=moviesuggestsuccess");
+
+        // send email to suggester
+        require 'classes/SuggestEmailView.php';
+        $suggesterEmail = new SuggesterEmailView($moviesuggest);
+        $suggesterEmail->render();
+
+        // send email to event host
+        require 'classes/AdminEmailView.php';
+        $eventHostEmail = new AdminEmailView($moviesuggest);
+        $eventHostEmail->render();
+
+
+        exit();
+
 
 		break;
 

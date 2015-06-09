@@ -18,5 +18,6 @@ if (! stristr($_SERVER['HTTP_HOST'], ".yoobee.net.nz") ) {
 
 session_start();
 session_regenerate_id(true);
+require "vendor/autoload.php";
 
 require "routes.php";
