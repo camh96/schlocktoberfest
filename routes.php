@@ -94,10 +94,10 @@ switch ($page) {
 		   // form is valid
 
         // redirect user to success page
-        // header("Location: ./?page=moviesuggestsuccess");
+        header("Location: ./?page=moviesuggestsuccess");
 
         // send email to suggester
-        require 'classes/SuggestEmailView.php';
+		require 'classes/SuggestEmailView.php';
         $suggesterEmail = new SuggesterEmailView($moviesuggest);
         $suggesterEmail->render();
 

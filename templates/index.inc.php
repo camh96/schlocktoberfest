@@ -27,7 +27,7 @@
           <button class="btn btn-success btn-lg"><span class="glyphicon glyphicon-sunglasses" aria-hidden="true"></span> Book Tickets Now (coming soon!)</button>
         </div>
         <div class="col-sm-6 hidden-xs">
-          <img class="img-responsive" src="https://placekitten.com/700/400" alt="">
+          <img class="img-responsive" src="http://lorempixel.com/800/400/cats/" alt="">
         </div>
       </div>
 
