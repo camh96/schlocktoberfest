@@ -1,0 +1,2 @@
+RewriteEngine On
+RewriteRule ^([^/]*)\.html$ /~cameron.hovell/schlocktoberfest/?page=$1 [L]

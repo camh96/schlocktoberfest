@@ -11,6 +11,7 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!-- <link href="css/bootstrap-theme.min.css" rel="stylesheet">     -->
     <link rel="stylesheet" href="css/main.css">
+
   </head>
   <body>
 
@@ -24,22 +25,34 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Schlocktoberfest</a>
+            <a class="navbar-brand" href="./">Schlocktoberfest</a>
           </div>
           <div id="navbar" class="navbar-collapse collapse">
+            <!-- <?= $page; ?> -->
             <ul class="nav navbar-nav">
               <li <?php if ($page === "index"): ?> class="active" <?php endif; ?> ><a href="./">Home</a></li>
+              <li <?php if ($page === "movies"): ?> class="active" <?php endif; ?> ><a href="./?page=movies">Movies</a></li>
+              <li <?php if ($page === "merchandise"): ?> class="active" <?php endif; ?> ><a href="./?page=merchandise">Merchandise</a></li>
               <li <?php if ($page === "about"): ?> class="active" <?php endif; ?> ><a href="./?page=about">About</a></li>
               <li <?php if ($page === "contact"): ?> class="active" <?php endif; ?> ><a href="#">Contact</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <?php if (! static::$auth->check()): ?>
+                <li <?php if ($page === "auth.register"): ?> class="active" <?php endif; ?>><a href="./?page=register">Register</a></li>
+                <li <?php if ($page === "auth.login"): ?> class="active" <?php endif; ?>><a href="./?page=login">Login</a></li>
+              <?php else: ?>
+                <li><a href="#"><?= static::$auth->user()->email; ?></a></li>
+                <li><a href="./?page=logout">Logout</a></li>
+              <?php endif; ?>
             </ul>
           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
       </nav>
-      
+
       <?php $this->content(); ?>
 
       <footer>
-        <p>© <?php echo date("Y") ?> Schlocktober Film Festival NZ</p>
+        <p class="small">© <?php echo date("Y") ?> Schlocktober Film Festival NZ</p>
       </footer>
     </div><!-- /.container -->
 
@@ -48,5 +61,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/taggle-ie9.min.js"></script>
+    <script src="js/main.js"></script>
+  
+  
+
   </body>
 </html>

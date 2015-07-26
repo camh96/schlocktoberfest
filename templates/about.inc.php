@@ -6,7 +6,7 @@
       
       <div class="row">
         <div class="col-sm-6 hidden-xs">
-          <img class="img-responsive" src="https://placekitten.com/700/400" alt="">
+          <img class="img-responsive" src="http://lorempixel.com/800/400/cats/" alt="">
         </div>
         <div class="col-sm-6">
           <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>

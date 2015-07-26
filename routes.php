@@ -1,117 +1,161 @@
 <?php
 
-use Mailgun\Mailgun;
+use App\Controllers\HomeController;
+use App\Controllers\AuthenticationController;
+use App\Controllers\AboutController;
+use App\Controllers\MerchController;
+use App\Controllers\MoviesController;
+use App\Controllers\CommentsController;
+use App\Controllers\MovieSuggestController;
+use App\Controllers\ErrorController;
+use App\Models\Exceptions\ModelNotFoundException;
+use App\Services\Exceptions\InsufficientPrivilegesException;
 
 $page = isset($_GET['page']) ? $_GET['page'] : 'home';
 
-switch ($page) {
-	case "home":
-		if (isset($_SESSION['moviesuggest'])) {
-			$moviesuggest = $_SESSION['moviesuggest'];
-		} else {
-			$moviesuggest = [
-				'title' => "",
-				'email' => "",
-				'newsletter' => "",
-				'errors' => [
-					'title' => "",
-					'email' => "",
-					'newsletter' => ""
-				]
-			];
-		}
-		
-		require "classes/HomeView.php";
+try {
 
-		$view = new HomeView($moviesuggest);
-		$view->render();
-		
-		break;
+    switch ($page) {
+        case "home":
 
-	case "about":
+            $controller = new HomeController();
+            $controller->show();
 
-		require "classes/AboutView.php";
-		
-		$view = new AboutView();
-		$view->render();
+            break;
 
-		break;
+        case "login":
 
-	case "moviesuggestsuccess":
+            $controller = new AuthenticationController();
+            $controller->login();
 
-	require "classes/SuccessSuggest.php";
-	
-	$view = new SuccessSuggestView();
-	$view->render();
+            break;
 
-	break;
+        case "auth.attempt":
 
-	case "moviesuggest":
+            $controller = new AuthenticationController();
+            $controller->attempt();
 
-		$_SESSION['moviesuggest'] = null;
+            break;
 
-		$moviesuggest = [
-			'errors' => []
-		];
+        case "register":
 
-		// capture suggestion data
+            $controller = new AuthenticationController();
+            $controller->register();
 
-		$expectedVariables = ['title', 'email', 'newsletter'];
+            break;
 
-		foreach ($expectedVariables as $variable) {
-			
-			// assume no errors
-			$moviesuggest['errors'][$variable] = "";
+        case "auth.store":
 
-			if (isset($_POST[$variable])) {
-				$moviesuggest[$variable] = $_POST[$variable];
-			} else {
-				$moviesuggest[$variable] = "";
-			}
-		}
+            $controller = new AuthenticationController();
+            $controller->store();
 
-		// validate suggestion data
+            break;
 
-		$error = false;
+        case "logout":
 
-		if (strlen($moviesuggest['title']) == 0) {
-			$moviesuggest['errors']['title'] = "A movie title is required.";
-			$error = true;
-		}
-		if (! filter_var($moviesuggest['email'], FILTER_VALIDATE_EMAIL)) {
-			$moviesuggest['errors']['email'] = "A valid email address required.";
-			$error = true;
-		}
+            $controller = new AuthenticationController();
+            $controller->logout();
 
-		if ($error === true) {
-			$_SESSION['suggestmovieerror'] = true;
-			$_SESSION['moviesuggest'] = $moviesuggest;
-			header("Location: ./#moviesuggest");
-			exit();	
-		}
+        break;
+
+        case "about":
+
+            $controller = new AboutController();
+            $controller->show();
+
+            break;
+
+        case "merchandise":
+
+            $controller = new MerchController();
+            $controller->show();
+
+            break;
+
+        case "movies":
+
+            $controller = new MoviesController();
+            $controller->index();
+
+            break;
+
+        case "movie":
+
+            $controller = new MoviesController();
+            $controller->show();
+
+            break;
+
+        case "movie.create":
+
+            $controller = new MoviesController();
+            $controller->create();
+
+            break;
+
+        case "movie.store":
+
+            $controller = new MoviesController();
+            $controller->store();
+
+            break;
+
+        case "movie.edit":
+
+            $controller = new MoviesController();
+            $controller->edit();
+
+            break;
+
+        case "movie.update":
+
+            $controller = new MoviesController();
+            $controller->update();
+
+        break;
+
+        case "movie.destroy":
+
+            $controller = new MoviesController();
+            $controller->destroy();
+
+        break;
+
+       case "comment.create":
+
+            $controller = new CommentsController();
+            $controller->create();
+
+        break;
 
 
-		   // form is valid
+        case "moviesuggest":
 
-        // redirect user to success page
-        header("Location: ./?page=moviesuggestsuccess");
+            $controller = new MovieSuggestController();
+            $controller->show();
 
-        // send email to suggester
-		require 'classes/SuggestEmailView.php';
-        $suggesterEmail = new SuggesterEmailView($moviesuggest);
-        $suggesterEmail->render();
+        break;
 
-        // send email to event host
-        require 'classes/AdminEmailView.php';
-        $eventHostEmail = new AdminEmailView($moviesuggest);
-        $eventHostEmail->render();
+        default:
 
+            throw new ModelNotFoundException();
 
-        exit();
+        break;
+    }
 
+} catch (ModelNotFoundException $e) {
 
-		break;
+    $controller = new ErrorController();
+    $controller->error404();
 
-	default: 
-		echo "404";
+} catch (InsufficientPrivilegesException $e) {
+
+    $controller = new ErrorController();
+    $controller->error401();
+
+} catch (Exception $e) {
+
+    $controller = new ErrorController();
+    $controller->error500($e);
+
 }
