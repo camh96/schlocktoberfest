@@ -7,7 +7,7 @@ class MerchView extends View
     public function render() 
     {
         
-        $page = "merch";
+        $page = "merchandise";
         $page_title = "Merchandise";
         include "templates/master.inc.php";
     }

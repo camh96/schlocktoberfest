@@ -15,5 +15,7 @@
                 <?= $movie->title; ?> (<?= $movie->year; ?>)
                 </a></li>
               <?php endforeach; ?>
+
+              <?php $this->paginate("./?page=movies", $p, $recordCount, $pageSize, 5); ?>
           </ol>
 

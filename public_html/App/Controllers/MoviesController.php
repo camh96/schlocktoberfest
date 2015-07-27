@@ -12,11 +12,15 @@ use App\Views\MovieFormView;
 
 class MoviesController extends Controller
 {
-    public function index()
+  public function index()
     {
-        $movies = Movie::all("title");
+        $p = isset($_GET['p']) ? (int)$_GET['p'] : 1;
+        $pageSize = 10;
+        $movies = Movie::all("title", true, $pageSize, $p);
 
-        $view = new MoviesView(compact('movies'));
+        $recordCount = Movie::count();
+
+        $view = new MoviesView(compact('movies', 'pageSize', 'p', 'recordCount'));
         $view->render();
     }
 
@@ -46,8 +50,12 @@ class MoviesController extends Controller
 
     public function store()
     {
+        static::$auth->mustBeAdmin();
 
         $movie = new Movie($_POST);
+        if (is_array($movie->tags)) {
+            $movie->tags = implode($movie->tags, ",");
+        }
 
         if (! $movie->isValid()) {
             $_SESSION['movie.form'] = $movie;
@@ -57,6 +65,7 @@ class MoviesController extends Controller
         }
 
         $movie->save();
+        $movie->saveTags();
 
         header("Location: ./?page=movie&id=" . $movie->id);
     }
@@ -91,6 +100,7 @@ class MoviesController extends Controller
         }
 
         $movie->save();
+        $movie->saveTags();
 
         header("Location: ./?page=movie&id=" . $movie->id);
 

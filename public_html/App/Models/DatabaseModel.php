@@ -74,7 +74,7 @@ abstract class DatabaseModel
     }
 
 
-    public static function all($sortColumn = "", $asc = true)
+    public static function all($sortColumn = "", $asc = true, $pageSize = null, $pageNumber = null)
     {
         $models = [];
 
@@ -95,6 +95,11 @@ abstract class DatabaseModel
             }
         }
 
+              if ($pageSize > 0 && $pageNumber > 0) {
+            $firstRecord = ($pageSize * $pageNumber) - $pageSize;
+            $query .= " LIMIT " . $firstRecord . ", " . $pageSize;
+        }
+
         $statement = $db->prepare($query);
         $statement->execute();
 
@@ -107,6 +112,18 @@ abstract class DatabaseModel
         return $models;
     }
 
+
+   public static function count()
+    {
+        $db = static::getDatabaseConnection();
+
+        $query = "SELECT count(id) FROM " . static::$tableName;
+
+        $statement = $db->prepare($query);
+        $statement->execute();
+
+        return $statement->fetchColumn();
+    }
 
     public static function allBy($column, $value, $sortColumn = "", $asc = true, $pageSize = null, $pageNumber = null)
     {

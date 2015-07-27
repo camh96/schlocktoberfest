@@ -22,6 +22,8 @@
                   </div>
 
              <?php if (DEV_ENVIRONMENT): ?>
+              <style type="text/css">
+              pre{ text-align: left; }  </style>
               <div class="alert alert-danger" role="alert">
                 <h2>Error: <?= get_class($e) ?></h2>
                 <h3><?= $e->getMessage() ?></h3>
