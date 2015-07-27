@@ -11,8 +11,8 @@ abstract class EmailView extends View
     {
 
         extract($this->data);
-        $mgClient = new Mailgun('key-67143118b148b5e88fa6fea571b390b4');
-        $domain = "sandbox1fe06f5955724020bddd7c7be8ca645c.mailgun.org";
+        $mgClient = new Mailgun(MAILGUN_KEY);
+        $domain = MAILGUN_DOMAIN;
 
         ob_start();
         

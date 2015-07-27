@@ -48,9 +48,9 @@ abstract class DatabaseModel
     protected static function getDatabaseConnection()
     {
         if (! self::$db) {
-            $dsn = 'mysql:host=localhost;dbname=schlocktoberfest;charset=utf8';
+            $dsn = 'mysql:host=' . DB_HOST . ';dbname=' . DB_NAME. ';charset=utf8';
 
-            self::$db = new PDO($dsn, 'root', '');
+            self::$db = new PDO($dsn, DB_USER, DB_PASS);
 
             self::$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             self::$db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
